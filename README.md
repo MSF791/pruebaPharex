@@ -66,4 +66,39 @@ Otro Reto fue a la hora de hacer el modelo de Tareas ya que además de los campo
 
 Adicionalmente tuve algunas dificultades con el responsive por darle propiedades a unos contenedores incorrectos
 
+## explicación endpoints
+
+para información más detallada sobre cada endpoint y schemas acceder a http://localhost:8000/docs
+
+### app.py
+endpoint home() => retorna un mensaje para verificar si está funcionando correctamente
+
+### users.py
+endpoint get_user(email:str, db: Session = Depends(get_db)) => espera 2 parametros 1 en la url y la sesión con la base de datos. Retorna información del usuario filtrado por email.
+
+endpoint save_user(user_data: UserBase, db: Session = Depends(get_db)) =>  espera 2 parametros los datos del body de la petición transformados por el schema para asegurar la integridad de los datos y la sesion con la base de datos. Retorna el usuario creado.
+
+endpoint edit_user(Data: dict, db: Session = Depends(get_db)) => espera 2 parametros los datos del usuario en formato diccionario (clave - valor) y la sesión con la base de datos. Retorna el usuario actualizado.
+
+endpoint delete_user(id:int, db: Session = Depends(get_db)) => espera 2 parametros id viene desde la URL y la sesión con la base de datos. Retorna mensaje de éxito
+
+endpoint login(data:dict, db: Session = Depends(get_db)) => espera 2 parametros los datos del usuario en formato diccionario y la sesión con la base de datos. Retorna el token con los datos del usuario.
+
+endpoint check_token(token:dict) => espera el parametro token en el body del request y nos retorna la información contenida en el token
+
+### tasks.py
+endpoint get_tasks_created(user:int, db:Session = Depends(get_db)) => espera 2 parametros el id del usuario que llega por URL y la sesión con la base de datos. Nos retorna las tareas que el usuario ha creado
+
+endpoint get_tasks_assigned(user:int, db:Session = Depends(get_db)) => espera 2 parametros el id del usuario que llega por URL y la sesión con la base de datos. Nos retorna las tareas en la que el usuario ha sido asignado
+
+endpoint load_task(id:int, db:Session = Depends(get_db)) => espera 2 parametros el id de la tarea que llega por URL y la sesión con la base de datos. Nos retorna la tarea filtrada por id
+
+endpoint create_task(data:TaskBase, db:Session = Depends(get_db)) => espera 2 parametros los datos del body en la request y la sesión con la base de datos. Nos retorna la tarea creada
+
+endpoint delete_task(id:int, db:Session = Depends(get_db)) => espera 2 parametros el id de la tarea que llega por URL y la sesión con la base de datos. Retorna mensaje de exito al eliminar.
+
+endpoint edit_task(data:dict, db: Session = Depends(get_db)) => espera 2 parametros los datos del usuario en formato diccionario y la sesión con la base de datos. Retorna el mensaje con websocket, la tarea actualizada y se inserta el registro en el historial de tareas.
+
+endpoint get_history_tasks(user_id:int, db: Session = Depends(get_db)): espera 2 parametros el id del usuario que llega por URL y la sesión con la base de datos.
+Retorna la lista del historial de actualizaciones de las tareas
 
